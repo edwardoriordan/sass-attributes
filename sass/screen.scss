@@ -1,0 +1,19 @@
+@import "output_js";
+
+h1 {
+	color: red;	
+}
+$number: 540;
+$px: 540px;
+$color: #f7f7f7;
+$string: 'dsfadfdsf';
+
+@include add_selector(h5, 'min-width, edward');
+
+@include add_variable('laurie', $color);
+
+@include add_variable('edward', $px);
+@include add_variable('number', $number);
+@include add_variable(string, $string);
+
+@include write_styles;

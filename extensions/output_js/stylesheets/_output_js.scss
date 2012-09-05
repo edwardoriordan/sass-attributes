@@ -1,0 +1,11 @@
+@mixin add_selector($selector, $values) {
+	$object: add_selector($selector, $values);
+}
+
+@mixin add_variable($name, $value) {
+	$variable: add_variable($name, $value);
+}
+
+@mixin write_styles() {
+	$do-it:  write_json();
+}
