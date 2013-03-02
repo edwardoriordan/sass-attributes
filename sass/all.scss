@@ -1,0 +1,21 @@
+@import "output_js";
+
+$number: 540;
+$px: 540px;
+$color: #f7f7f7;
+$string: 'dsfadfdsf';
+
+h5 {
+  @include add_selector_attributes(h1, 'data-dropdown, true');
+
+  @include add_selector_attributes(h1, 'data-dropdown, false');
+}
+
+@include add_variable('laurie', $color);
+@include add_variable('edward', $px);
+@include add_variable('edward', 5);
+@include add_variable('edward', $number);
+@include add_variable('number', $number);
+@include add_variable(string, $string);
+
+@include write_styles;

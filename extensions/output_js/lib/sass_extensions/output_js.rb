@@ -45,7 +45,7 @@ module Sass::Script::Functions
     output = make_js_variable("selectors", JSON.pretty_generate(@@selector_attributes))
     output += make_js_variable('variables', JSON.pretty_generate(@@variables))
 
-  	File.open(Compass.configuration.javascripts_dir + "/style.sass.js","w") do |f|
+  	File.open(Compass.configuration.javascripts_dir + "/style.sass.js", "w") do |f|
   		f.write(output)
 		end
 

@@ -1,4 +1,10 @@
 @mixin add_selector_attributes($selector, $values, $mq: 'false') {
+
+  // Test for breakpoint and if so use it to
+  // pass current media querry to javascript
+  //@debug breakpoint-get-context('min-width');
+  //@debug breakpoint-get-context('max-width');
+  $mq: 'min-width: false; max-width: 700px';
 	$object: add_selector_attributes($selector, $values, $mq);
 }
 
@@ -6,18 +12,6 @@
 	$variable: add_variable($name, $value);
 }
 
-@mixin add_data_attribute($selector, $name, $value: 'true', $mq: 'false') {
-  
-  // Test for breakpoint and if so use it to
-  // pass current media querry to javascript
-  //@debug breakpoint-get-context('min-width');
-  //@debug breakpoint-get-context('max-width');
-
-  $mq: 'min-width: false; max-width: 700px';
-  $variable: add_data_attribute($selector, $name, $value, $mq);
-  
-}
-
 @mixin write_styles() {
-	$do-it:  write_json();
+	$do-it: write_json();
 }
