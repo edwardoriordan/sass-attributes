@@ -25,11 +25,14 @@ module Sass::Script::Functions
     # add the values to the selector
     # otherwise create a new selector
     if @@selector_attributes.has_key?(selector)
-      @@selector_attributes[selector] = @@selector_attributes[selector].merge(data_attr)
+      @@selector_attributes[selector]['data_attributes'] = @@selector_attributes[selector]['data_attributes'].merge(data_attr)
     else
-      selector_object = { selector => data_attr }
-      selector_object[selector]['mq'] = mq
-
+      selector_object = { 
+        selector => {
+          'data_attributes' => data_attr,
+          'mq' => mq
+        }
+      }
       @@selector_attributes = @@selector_attributes.merge(selector_object)  
     end
     
