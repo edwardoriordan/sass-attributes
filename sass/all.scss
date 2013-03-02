@@ -6,16 +6,13 @@ $color: #f7f7f7;
 $string: 'dsfadfdsf';
 
 h5 {
-  @include add_selector_attributes(h1, 'data-rick, 600px');
-  @include add_selector_attributes(h1, 'data-dropdown, true');
-  @include add_selector_attributes(h1, 'data-laurie, hello');
+  @include add-selector-attributes('h1', 'data-dropdown, true');
+  @include add-selector-attributes('h5.class-name', 'data-link-to, #element');
 }
 
-@include add_variable('laurie', $color);
-@include add_variable('edward', $px);
-@include add_variable('edward', 5);
-@include add_variable('edward', $number);
-@include add_variable('number', $number);
-@include add_variable(string, $string);
+@include add-variable('myCoolColor', $color);
+@include add-variable('myValue', '5px');
+@include add-variable('myNumber', $number);
+@include add-variable('myString', $string);
 
-@include write_styles;
+@include write-styles;
