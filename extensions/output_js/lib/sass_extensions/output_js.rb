@@ -3,41 +3,61 @@ require "json"
 
 module Sass::Script::Functions
   
-  @@variable = ""
-  @@variable = {}
-	@@objects = []
+  @@variables = {}
+	@@selector_attributes = {}
+  @@data_attributes = {}
 
   @@prefix = "sass_styles_"
 
-  def add_selector(selector, values)
+  # in future versions of sass we should be able to get access to the 
+  # selector and not have to pass it in.
+  def add_selector_attributes(selector, values, mq)
+    assert_type mq, :String
 
     # unquote: Remove quotes from a string if the string is quoted
-    values = unquote(values)
   	selector = unquote(selector)
+    values = unquote(values)
+    mq = unquote(mq)
 
-		newValues = {
-    	selector => Hash[*values.value.split(',')]
+    # create selector object from the list of values passed in
+    # strip any trailing or leading whitespace
+    selector_object = {
+    	selector => Hash[*values.value.split(',').map(&:strip)]
 		}
+    selector_object[selector]['mq'] = mq
 		
-		@@objects << newValues
+    @@selector_attributes = @@selector_attributes.merge(selector_object)
 
 		Sass::Script::String.new(values)
   end
 
-  def add_variable(name, value)
-    #@@variable << {unquote(name) => unquote(value)}
-    #@@variable += make_js_variable(unquote(name),unquote(value))
-    @@variable = @@variable.merge({unquote(name) => unquote(value)})
+  # in future versions of sass we should be able to get access to the 
+  # selector and not have to pass it in.
+  # Not sure if best api is to have different types of functions
+  # or one generic one?
+  def add_data_attribute(selector, data_attribute, value, mq)
+    assert_type value, :String
+    assert_type mq, :String
+
+    # unquote: Remove quotes from a string if the string is quoted
+    selector = unquote(selector)
+    data_attribute = unquote(data_attribute)
+    value = unquote(value)
+    mq = unquote(mq)
+
+    newValues = {
+      selector => [data_attribute, value, mq]
+    }
+    
+    #@@objects << newValues
+    @@data_attributes = @@data_attributes.merge(newValues)
+
     Sass::Script::String.new(value)
   end
 
-  # Directly output a sass variables to js
-  def make_js_variable_direct(name, value)
-    if type_of(value).to_s == "number" && value.unitless?
-      "var " + @@prefix + name.to_s + " = " + value.to_s + ";\n"   
-    else
-      "var " + @@prefix + name.to_s + " = '" + value.to_s + "';\n"
-    end
+  def add_variable(name, value)
+    @@variables = @@variables.merge({unquote(name) => unquote(value)})
+    Sass::Script::String.new(value)
   end
 
   def make_js_variable(name, value)
@@ -45,12 +65,11 @@ module Sass::Script::Functions
   end
 
   def write_json
+    output = make_js_variable("selectors", JSON.pretty_generate(@@selector_attributes))
+    #output += make_js_variable("data_attributes", JSON.pretty_generate(@@data_attributes))
+    output += make_js_variable('variables', JSON.pretty_generate(@@variables))
 
-    #output = make_js_variable("selectors", JSON.pretty_generate(@@objects))
-    #output = "// VARIABLES\n" + @@variable;
-    output = make_js_variable('variables', JSON.pretty_generate(@@variable))
-
-  	File.open("style.js","w") do |f|
+  	File.open(Compass.configuration.javascripts_dir + "/style.sass.js","w") do |f|
   		f.write(output)
 		end
 
@@ -74,5 +93,14 @@ module Sass::Script::Functions
 
 		# Sass::Script::String.new('OK')
   # end
+
+  # Directly output a sass variables to js
+  def make_js_variable_direct(name, value)
+    if type_of(value).to_s == "number" && value.unitless?
+      "var " + @@prefix + name.to_s + " = " + value.to_s + ";\n"   
+    else
+      "var " + @@prefix + name.to_s + " = '" + value.to_s + "';\n"
+    end
+  end
   
 end
