@@ -4,7 +4,7 @@
   // pass current media querry to javascript
   //@debug breakpoint-get-context('min-width');
   //@debug breakpoint-get-context('max-width');
-  $mq: 'min-width: false; max-width: 700px';
+  $mq: 'max-width: 700px';
 	$object: add_selector_attributes($selector, $values, $mq);
 }
 

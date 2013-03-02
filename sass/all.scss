@@ -6,9 +6,9 @@ $color: #f7f7f7;
 $string: 'dsfadfdsf';
 
 h5 {
+  @include add_selector_attributes(h1, 'data-edward, 600px');
   @include add_selector_attributes(h1, 'data-dropdown, true');
-
-  @include add_selector_attributes(h1, 'data-dropdown, false');
+  @include add_selector_attributes(h1, 'data-laurie, hello');
 }
 
 @include add_variable('laurie', $color);

@@ -10,7 +10,7 @@ $string: 'string';
 
 h5 {
   @include add_selector_attributes(h1, 'data-dropdown, true');
-  @include add_selector_attributes(h1, 'data-dropdown, false');
+  @include add_selector_attributes(h1, 'data-my-cool-attribute, 700px');
 }
 
 @include add_variable('myCoolColor', $color);

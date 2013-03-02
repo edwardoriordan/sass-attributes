@@ -7,7 +7,7 @@ module Sass::Script::Functions
 	@@selector_attributes = {}
 
   #prefix added to outputed sass variables
-  @@prefix = "sass_styles_"
+  @@prefix = "sassStyles"
 
   # in future versions of sass we should be able to get access to the 
   # selector and not have to pass it in
@@ -15,19 +15,25 @@ module Sass::Script::Functions
     assert_type mq, :String
 
     # unquote: Remove quotes from a string if the string is quoted
-  	selector = unquote(selector)
+  	selector = unquote(selector.value)
     values = unquote(values)
     mq = unquote(mq)
 
-    # create selector object from the list of values passed in
-    # strip any trailing or leading whitespace
-    selector_object = {
-    	selector => Hash[*values.value.split(',').map(&:strip)]
-		}
-    selector_object[selector]['mq'] = mq
-		
-    @@selector_attributes = @@selector_attributes.merge(selector_object)
+    data_attr = Hash[*values.value.split(',').map(&:strip)]
 
+    # if selector has already been added
+    # add the values to the selector
+    # otherwise create a new selector
+    if @@selector_attributes.has_key?(selector)
+      @@selector_attributes[selector] = @@selector_attributes[selector].merge(data_attr)
+    else
+      selector_object = { selector => data_attr }
+      selector_object[selector]['mq'] = mq
+
+      @@selector_attributes = @@selector_attributes.merge(selector_object)  
+    end
+    
+    
 		Sass::Script::String.new(values)
   end
 
@@ -42,8 +48,8 @@ module Sass::Script::Functions
 
   # write json to style file
   def write_json
-    output = make_js_variable("selectors", JSON.pretty_generate(@@selector_attributes))
-    output += make_js_variable('variables', JSON.pretty_generate(@@variables))
+    output = make_js_variable("Selectors", JSON.pretty_generate(@@selector_attributes))
+    output += make_js_variable('Variables', JSON.pretty_generate(@@variables))
 
   	File.open(Compass.configuration.javascripts_dir + "/style.sass.js", "w") do |f|
   		f.write(output)
