@@ -1,18 +1,18 @@
 var sassStylesSelectors = {
   "h1": {
-    "mq": "max-width: 700px",
     "data_attributes": {
-      "data-dropdown": "true",
-      "data-edward": "600px",
-      "data-laurie": "hello"
-    }
+      "data-rick": "600px",
+      "data-laurie": "hello",
+      "data-dropdown": "true"
+    },
+    "mq": "max-width: 700px"
   }
 };
 var sassStylesVariables = {
-  "edward": "5",
-  "string": "dsfadfdsf",
-  "edward": "540",
-  "laurie": "#f7f7f7",
   "number": "540",
-  "edward": "540px"
+  "string": "dsfadfdsf",
+  "laurie": "#f7f7f7",
+  "edward": "540px",
+  "edward": "540",
+  "edward": "5"
 };

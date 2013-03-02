@@ -1,4 +1,4 @@
-@import "output_js";
+@import "sass-attributes";
 
 $number: 540;
 $px: 540px;
@@ -6,7 +6,7 @@ $color: #f7f7f7;
 $string: 'dsfadfdsf';
 
 h5 {
-  @include add_selector_attributes(h1, 'data-edward, 600px');
+  @include add_selector_attributes(h1, 'data-rick, 600px');
   @include add_selector_attributes(h1, 'data-dropdown, true');
   @include add_selector_attributes(h1, 'data-laurie, hello');
 }
