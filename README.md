@@ -1,11 +1,18 @@
 Sass attributes v0.1
 ======================
 
-Ever need your css to talk to your javascript? Needed to pass breakpoint values to javascript? Wanted to add some very basic interactivity via css? Wished you could set html attributes in css? Do something like https://github.com/ahume/selector-queries without having to set something in html?
+Ever needed your css to talk to your javascript?
 
-Previously you would needed to read your css at run time, parse it in someway with javascript, and do the work. But maybe there is another way - maybe you could get css (via preprocessors) to speak a little bit of javascript? What if Sass not only output css but also some simple javascipt?
+Previously to communicate between your css and your js you needed to parse your css with javascript at run time. Sass attributes does it another way. It enables you to write sass which outputs javascript files. It lets sass speak not only css but also a little bit of js (just enough to order a coffee or ask for the bill).
 
-Sass attributes is a proof of concept to see if this could be done and it turns out it can! Its kinda like how we can create a something like CAS (http://www.xanthir.com/blog/b4K_0) with a css preprocessor.
+It is inspired by the desire
+* to set basic attribute values on html in your css (like CAS - http://www.xanthir.com/blog/b4K_0)
+* to be able to add basic interactive and toggle state in CSS without having to use form elements (like the checkbox hack - http://css-tricks.com/the-checkbox-hack)
+* do something like https://github.com/ahume/selector-queries in a declartive way just using css
+
+It works by creating some sass functions which output javascript objects in a **style.sass.js** file in the javascript path set in your compass config.rb file.
+
+This is still very much a work in progress and isn't a gem yet.
 
 ### Variables
 
@@ -38,7 +45,7 @@ Sass
 @include add-selector-attributes('h5.class-name', 'data-link-to, #element');
 ```
 
-outputs
+which outputs the following in your **style.sass.js** file
 
 ```js
 var sassStylesSelectors = {
@@ -55,6 +62,6 @@ var sassStylesSelectors = {
 };
 ```
 
-From there you can include the **style.sass.js** file via a script tag in html (or via script loader, etc) and process the variables as you wish. A quick (jQuery dependent) app.js file is included to show how this could work.
+Sass attributes will include a javascript plugin that is used to parse these objects and set data attributes (not exactly hard!). From there the idea is then to use javascript plugins that use data attributes as their hooks into the dom (like how bootstrap or foundation work).
 
-It is a pain that we have to set the selector again but in future versions of sass we should be able to access the selectors that mixins are called in (https://github.com/nex3/sass/issues/286). This will make add attributes to elements alot more intutive.
+Currently it is a big pain point that we have to set the selector as an arg rather then infering it from the context. In future versions of sass, however, we should be able to access the selectors that mixins are called in (https://github.com/nex3/sass/issues/286).
